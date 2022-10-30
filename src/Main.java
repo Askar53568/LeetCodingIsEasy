@@ -1,18 +1,39 @@
+import javax.print.attribute.EnumSyntax;
 import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        int[] nums = {6,2,6,5,1,2};
+        int[] nums = {2,7,11,15};
         //String[] strs = {"flower","flow","flight"};
         //System.out.println(longestCommonPrefix(strs));
         int[][] mat = new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-        char[] charArray = {'h','e','l','l','o'};
+        //char[] charArray = {'h','e','l','l','o'};
         //reverseString(charArray);
-        System.out.println(arrayPairSum(nums));
+        printArray(twoSum2(nums, 9));
+        //System.out.println(arrayPairSum(nums));
         //System.out.println(generate(5));
         //System.out.println(addBinary("1010", "1011"));
         //System.out.println(strStr("leetcode", "leeto"));
+    }
+
+    public static int[] twoSum2(int[] numbers, int target) {
+        int left = 0;
+        int right = numbers.length-1;
+        int [] result = new int[2];
+        while(left<right){
+            int sum = numbers[left] + numbers[right];
+            if (sum<target){
+                left++;
+            } else if (sum>target) {
+                right--;
+            } else {
+                result[0] =  left+1;
+                result[1] = right+1;
+                return result;
+            }
+        }
+        return result;
     }
 
     public static int arrayPairSum(int[] nums) {
