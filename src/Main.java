@@ -3,13 +3,37 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
-        int[] nums = {9, 8, 9};
-        String[] strs = {"flower","flow","flight"};
-        System.out.println(longestCommonPrefix(strs));
+        int[] nums = {6,2,6,5,1,2};
+        //String[] strs = {"flower","flow","flight"};
+        //System.out.println(longestCommonPrefix(strs));
         int[][] mat = new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+        char[] charArray = {'h','e','l','l','o'};
+        //reverseString(charArray);
+        System.out.println(arrayPairSum(nums));
         //System.out.println(generate(5));
         //System.out.println(addBinary("1010", "1011"));
         //System.out.println(strStr("leetcode", "leeto"));
+    }
+
+    public static int arrayPairSum(int[] nums) {
+        Arrays.sort(nums);
+        int sum = 0;
+        for (int i = 0; i < nums.length; i+=2) {
+            sum+=nums[i];
+        }
+        return sum;
+    }
+
+    public static void reverseString(char[] s) {
+        int left = 0;
+        int right = s.length-1;
+        while(left<right){
+            char temp = s[left];
+            s[left] = s[right];
+            s[right] = temp;
+            left++;
+            right--;
+        }
     }
 
     public static String longestCommonPrefix(String[] strs) {
