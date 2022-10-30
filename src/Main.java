@@ -6,19 +6,17 @@ public class Main {
         int[] nums = {9, 8, 9};
         int[][] mat = new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
         //System.out.println(generate(5));
-        System.out.println(addBinary("1010", "1011"));
-        //System.out.println(spiralOrder(mat));
-        //printArray(plusOne(nums));
-        //findDiagonalOrder(mat);
-        //System.out.println(dominantIndex(nums));
-        //sortedSquares(nums);
-        //System.out.println(findDisappearedNumbers(nums));
-        //System.out.println(validMountainArray(nums));
-        //printArray(removeDuplicates2(nums));
-        //System.out.println(isUnique("qwertyuiop"));
-        //moveZeroes(nums);
-        //sortArrayByParity(nums);
-        //thirdMax(nums);
+        //System.out.println(addBinary("1010", "1011"));
+        System.out.println(strStr("leetcode", "leeto"));
+    }
+
+    public static int strStr(String haystack, String needle) {
+        int result  = -1;
+        if(haystack.contains(needle)){
+
+            return haystack.indexOf(needle);
+        }
+        return result;
     }
 
     public static int[] findDiagonalOrder(int[][] mat) {
