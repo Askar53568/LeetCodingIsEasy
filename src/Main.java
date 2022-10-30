@@ -4,10 +4,27 @@ public class Main {
 
     public static void main(String[] args) {
         int[] nums = {9, 8, 9};
+        String[] strs = {"flower","flow","flight"};
+        System.out.println(longestCommonPrefix(strs));
         int[][] mat = new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
         //System.out.println(generate(5));
         //System.out.println(addBinary("1010", "1011"));
-        System.out.println(strStr("leetcode", "leeto"));
+        //System.out.println(strStr("leetcode", "leeto"));
+    }
+
+    public static String longestCommonPrefix(String[] strs) {
+        Arrays.sort(strs);
+        StringBuilder prefix = new StringBuilder();
+        for (int i = 0; i<strs[0].length(); i++) {
+            prefix.append(strs[0].charAt(i));
+            for (String str : strs) {
+                if(!str.startsWith(prefix.toString())){
+                    prefix.deleteCharAt(prefix.length()-1);
+                    return prefix.toString();
+                }
+            }
+        }
+        return prefix.toString();
     }
 
     public static int strStr(String haystack, String needle) {
