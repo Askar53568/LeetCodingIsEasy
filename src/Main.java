@@ -4,17 +4,33 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
-        int[] nums = {2,7,11,15};
+        int[] nums = {1,2,3,4,5};
         //String[] strs = {"flower","flow","flight"};
         //System.out.println(longestCommonPrefix(strs));
+        System.out.println(minSubArrayLen(11, nums));
         int[][] mat = new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
         //char[] charArray = {'h','e','l','l','o'};
         //reverseString(charArray);
-        printArray(twoSum2(nums, 9));
+        //printArray(twoSum2(nums, 9));
         //System.out.println(arrayPairSum(nums));
         //System.out.println(generate(5));
         //System.out.println(addBinary("1010", "1011"));
         //System.out.println(strStr("leetcode", "leeto"));
+    }
+
+    public static int minSubArrayLen(int target, int[] nums) {
+        int sum = 0;
+        int pointer = 0;
+        int result = 0;
+        for (int i = 0; i < nums.length; i++) {
+            sum+=nums[i];
+            while(sum>=target){
+                result = i - pointer + 1;
+                sum-=nums[pointer];
+                pointer++;
+            }
+        }
+        return result;
     }
 
     public static int[] twoSum2(int[] numbers, int target) {
