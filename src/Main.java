@@ -4,11 +4,17 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
-        int[] nums = {1,2,3,4,5};
+        int[] nums1 = {4,9,5};
+        int[] nums2 = {9,4,9,8,4};
+        //printArray(intersect(nums1,nums2));
+        //rotate(nums, 3);
+        //intToRoman(60);
+        //System.out.println(reverseWords3("Let's take LeetCode contest"));
+        //System.out.println(romanToInt("MCMXCIV"));
+        int[][] mat = new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
         //String[] strs = {"flower","flow","flight"};
         //System.out.println(longestCommonPrefix(strs));
-        System.out.println(minSubArrayLen(11, nums));
-        int[][] mat = new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+        //System.out.println(minSubArrayLen(11, nums));
         //char[] charArray = {'h','e','l','l','o'};
         //reverseString(charArray);
         //printArray(twoSum2(nums, 9));
@@ -18,15 +24,189 @@ public class Main {
         //System.out.println(strStr("leetcode", "leeto"));
     }
 
+    // input array: [1,2,3,4,5,6,7]
+    // output array:[5,6,7,1,2,3,4]
+    //"s'teL ekat edoCteeL tsetnoc"
+    public static int[] intersect(int[] nums1, int[] nums2) {
+        ArrayList<Integer> list = new ArrayList<>();
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        int left1 = 0;
+        int left2 = 0;
+        while(left2<nums2.length && left1<nums1.length){
+            int num1 = left1>nums1.length-1 ? -1 : nums1[left1];
+            int num2 = left2>nums2.length-1 ? -1: nums2[left2];
+            if(num1==num2){
+                list.add(num1);
+                left1++;
+                left2++;
+            }
+            if(num1<num2){
+                left1++;
+            }else if(num1>num2){
+                left2++;
+            }
+        }
+        int[] result = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            result[i] = list.get(i);
+        }
+        return result;
+    }
+    public static String reverseWords3(String s) {
+        StringBuilder sentence = new StringBuilder();
+        StringBuilder word = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            if (!Character.isWhitespace(s.charAt(i))) {
+                word.append(s.charAt(i));
+            }else{
+                word.reverse();
+                sentence.append(word);
+                sentence.append(" ");
+                word.delete(0,word.length());
+            }
+        }
+        word.reverse();
+        sentence.append(word);
+        return sentence.toString();
+    }
+    public static void rotate2(int[] nums, int k) {
+        int last = nums.length - 1;
+        for (int j = 0; j < k; j++) {
+            int temp = nums[last];
+            for (int i = last; i > 0; i--) {
+                nums[i] = nums[i - 1];
+            }
+            nums[0] = temp;
+        }
+    }
+
+    public static String getRoman(int num) {
+        switch (num) {
+            case 1:
+                return "I";
+            case 5:
+                return "V";
+            case 9:
+                return "IX";
+            case 4:
+                return "IV";
+            case 10:
+                return "X";
+            case 90:
+                return "XC";
+            case 40:
+                return "XL";
+            case 50:
+                return "L";
+            case 100:
+                return "C";
+            case 400:
+                return "CD";
+            case 500:
+                return "D";
+            case 900:
+                return "CM";
+            case 1000:
+                return "M";
+            default:
+                return "";
+        }
+    }
+
+    public static String reverseWords(String s) {
+        String stripped = s.trim().replaceAll(" +", " ");
+
+        StringBuilder word = new StringBuilder();
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < stripped.length(); i++) {
+            if (!Character.isWhitespace(stripped.charAt(i))) {
+                word.append(stripped.charAt(i));
+            } else {
+                list.add(word.toString());
+                word.delete(0, word.length());
+            }
+        }
+        list.add(word.toString());
+        word.delete(0, word.length());
+        Collections.reverse(list);
+        for (String str :
+                list) {
+            word.append(str);
+            word.append(" ");
+        }
+        word.delete(word.length()-1,word.length());
+
+        return word.toString();
+    }
+
+    public static String intToRoman(int num) {
+        StringBuilder result = new StringBuilder();
+        int temp = 1000;
+        int test = 0;
+        while (num > 0) {
+            test = (num / temp) * temp;
+            num -= test;
+            if (!getRoman(test).isEmpty()) {
+                result.append(getRoman(test));
+            } else {
+                if (test > 5 * temp) {
+                    result.append(getRoman(5 * temp));
+                    test -= 5 * temp;
+                }
+                if (test < 5 * temp) {
+                    for (int i = 0; i < test; i += temp) {
+                        result.append(getRoman(temp));
+                    }
+                }
+            }
+            temp = temp / 10;
+        }
+        return result.toString();
+    }
+
+    public static int romanToInt(String s) {
+        HashMap<Character, Integer> map = new HashMap<>();
+        map.put('I', 1);
+        map.put('V', 5);
+        map.put('X', 10);
+        map.put('L', 50);
+        map.put('C', 100);
+        map.put('D', 500);
+        map.put('M', 1000);
+        int result = 0;
+        char[] arr = s.toCharArray();
+        for (int i = 0; i < s.length() - 1; i++) {
+            if (i < s.length() - 1) {
+                if (arr[i] == 'I' && (arr[i + 1] == 'V' || arr[i + 1] == 'X')) {
+                    result += map.get(arr[i + 1]) - 1;
+                    i++;
+                } else if (arr[i] == 'X' && (arr[i + 1] == 'L' || arr[i + 1] == 'C')) {
+                    result += map.get(arr[i + 1]) - 10;
+                    i++;
+                } else if (arr[i] == 'C' && (arr[i + 1] == 'D' || arr[i + 1] == 'M')) {
+                    result += map.get(arr[i + 1]) - 100;
+                    i++;
+                } else {
+                    result += map.get(arr[i]);
+                }
+            } else {
+                result += map.get(arr[i]);
+            }
+        }
+        return result;
+
+    }
+
     public static int minSubArrayLen(int target, int[] nums) {
         int sum = 0;
         int pointer = 0;
         int result = 0;
         for (int i = 0; i < nums.length; i++) {
-            sum+=nums[i];
-            while(sum>=target){
+            sum += nums[i];
+            while (sum >= target) {
                 result = i - pointer + 1;
-                sum-=nums[pointer];
+                sum -= nums[pointer];
                 pointer++;
             }
         }
@@ -35,17 +215,17 @@ public class Main {
 
     public static int[] twoSum2(int[] numbers, int target) {
         int left = 0;
-        int right = numbers.length-1;
-        int [] result = new int[2];
-        while(left<right){
+        int right = numbers.length - 1;
+        int[] result = new int[2];
+        while (left < right) {
             int sum = numbers[left] + numbers[right];
-            if (sum<target){
+            if (sum < target) {
                 left++;
-            } else if (sum>target) {
+            } else if (sum > target) {
                 right--;
             } else {
-                result[0] =  left+1;
-                result[1] = right+1;
+                result[0] = left + 1;
+                result[1] = right + 1;
                 return result;
             }
         }
@@ -55,16 +235,16 @@ public class Main {
     public static int arrayPairSum(int[] nums) {
         Arrays.sort(nums);
         int sum = 0;
-        for (int i = 0; i < nums.length; i+=2) {
-            sum+=nums[i];
+        for (int i = 0; i < nums.length; i += 2) {
+            sum += nums[i];
         }
         return sum;
     }
 
     public static void reverseString(char[] s) {
         int left = 0;
-        int right = s.length-1;
-        while(left<right){
+        int right = s.length - 1;
+        while (left < right) {
             char temp = s[left];
             s[left] = s[right];
             s[right] = temp;
@@ -76,11 +256,11 @@ public class Main {
     public static String longestCommonPrefix(String[] strs) {
         Arrays.sort(strs);
         StringBuilder prefix = new StringBuilder();
-        for (int i = 0; i<strs[0].length(); i++) {
+        for (int i = 0; i < strs[0].length(); i++) {
             prefix.append(strs[0].charAt(i));
             for (String str : strs) {
-                if(!str.startsWith(prefix.toString())){
-                    prefix.deleteCharAt(prefix.length()-1);
+                if (!str.startsWith(prefix.toString())) {
+                    prefix.deleteCharAt(prefix.length() - 1);
                     return prefix.toString();
                 }
             }
@@ -89,8 +269,8 @@ public class Main {
     }
 
     public static int strStr(String haystack, String needle) {
-        int result  = -1;
-        if(haystack.contains(needle)){
+        int result = -1;
+        if (haystack.contains(needle)) {
 
             return haystack.indexOf(needle);
         }
@@ -136,19 +316,19 @@ public class Main {
         StringBuilder str = new StringBuilder();
         int carry = 0;
         // if char exists add it if not add 0
-        int n = Math.max(a.length(),b.length());
-        int aLast =  a.length()-1;
-        int bLast = b.length()-1;
-        for (int i = n-1; i > -1; i--) {
-            int aBinary = aLast<0 ? 0: Character.getNumericValue(a.charAt(aLast--));
-            int bBinary = bLast<0 ? 0 : Character.getNumericValue(b.charAt(bLast--));
+        int n = Math.max(a.length(), b.length());
+        int aLast = a.length() - 1;
+        int bLast = b.length() - 1;
+        for (int i = n - 1; i > -1; i--) {
+            int aBinary = aLast < 0 ? 0 : Character.getNumericValue(a.charAt(aLast--));
+            int bBinary = bLast < 0 ? 0 : Character.getNumericValue(b.charAt(bLast--));
 
             int result = aBinary + bBinary + carry;
-            carry = result > 1? 1 : 0;
+            carry = result > 1 ? 1 : 0;
             result = result % 2;
             str.append(result);
         }
-        if(carry>0) str.append(carry);
+        if (carry > 0) str.append(carry);
         str.reverse();
         return str.toString();
     }
@@ -209,24 +389,20 @@ public class Main {
 
     public static List<List<Integer>> generate(int numRows) {
         ArrayList<List<Integer>> triangle = new ArrayList<>();
-        //populating tringle
         for (int i = 1; i < numRows + 1; i++) {
             ArrayList<Integer> intermediate = new ArrayList<>();
-            //populating intermediate
             for (int j = 0; j < i; j++) {
                 if (j == 0 || j == i - 1) {
                     intermediate.add(1);
                 } else {
-                    if(i>2) {
-                        int x = triangle.get(i-2).get(j - 1);
-                        int y = triangle.get(i-2).get(j);
+                    if (i > 2) {
+                        int x = triangle.get(i - 2).get(j - 1);
+                        int y = triangle.get(i - 2).get(j);
                         intermediate.add(x + y);
                     }
                 }
             }
-            //System.out.println(intermediate);
             triangle.add(intermediate);
-            //System.out.println(triangle);
         }
         return triangle;
     }
@@ -480,11 +656,13 @@ public class Main {
 
     public static void rotate(int[] nums, int k) {
         //put the rotating nums in a separate array
-        k++;
         int[] ints = new int[nums.length];
         for (int i = 0; i < nums.length; i++) {
-            ints[i] = nums[k];
-            k = (k + 1) % nums.length;
+            int pos = (i + k) % nums.length;
+            ints[pos] = nums[i];
+        }
+        for (int i = 0; i < nums.length; i++) {
+            nums[i] = ints[i];
         }
     }
 
